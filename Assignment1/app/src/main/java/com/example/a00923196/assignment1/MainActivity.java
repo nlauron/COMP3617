@@ -10,13 +10,12 @@ import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
-    String[] colors = {"Red", "Blue", "Green", "Yellow", "Magenta"};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String[] colors = getResources().getStringArray(R.array.color);
         ArrayAdapter adapter = new ArrayAdapter<>(this,
                 R.layout.listview, colors);
 

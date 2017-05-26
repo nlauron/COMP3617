@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Assignment 1</string>
+
+    <string-array name="color">
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Yellow</item>
+        <item>Magenta</item>
+    </string-array>
 </resources>
