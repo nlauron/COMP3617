@@ -16,10 +16,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String[] colors = getResources().getStringArray(R.array.color);
-        ArrayAdapter adapter = new ArrayAdapter<>(this,
-                R.layout.listview, colors);
-
         ListView lv = (ListView) findViewById(R.id.color_list);
+
+        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.listview, colors);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
