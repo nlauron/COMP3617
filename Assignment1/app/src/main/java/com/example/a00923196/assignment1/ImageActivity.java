@@ -3,8 +3,8 @@ package com.example.a00923196.assignment1;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 public class ImageActivity extends AppCompatActivity {
