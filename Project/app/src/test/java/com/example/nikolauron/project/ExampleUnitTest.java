@@ -1,4 +1,4 @@
-package com.example.a00923196.project;
+package com.example.nikolauron.project;
 
 import org.junit.Test;
 
