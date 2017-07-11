@@ -60,17 +60,17 @@ public class CartoonProvider extends ContentProvider {
 
     @Override
     public String getType(final Uri uri) {
-        /*final String type;
+        final String type;
 
         switch(uriMatcher.match(uri)) {
             case NAMES_URI:
-                type = "";
+                type = "vnd.android.cursor.dir/vnd.cartoonapi.azurewebsites.net/api/cartoon";
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
-        return (type);*/
-        return null;
+        return (type);
+
     }
 
 

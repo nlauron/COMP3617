@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ca.bcit.cartoonapp.MainActivity">
+    tools:context="ca.bcit.cartoonapp.ImageActivity">
 
-    <ListView
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@android:id/list" />
+        app:srcCompat="@color/colorPrimary"
+        tools:layout_editor_absoluteX="59dp"
+        tools:layout_editor_absoluteY="46dp" />
 </RelativeLayout>

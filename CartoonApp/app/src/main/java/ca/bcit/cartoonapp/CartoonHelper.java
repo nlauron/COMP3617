@@ -81,8 +81,8 @@ public final class CartoonHelper extends SQLiteOpenHelper {
         final int rows;
 
         rows = db.delete(NAME_TABLE_NAME, NAME_COLUMN_NAME + " = ? AND " + PICTURE_COLUMN_PICTURE + " = ?", new String[] {
-            name,
-            pictureUrl,
+                name,
+                pictureUrl,
         });
 
         return (rows);
