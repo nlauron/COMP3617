@@ -19,7 +19,11 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ProjectsActivity" />
         <activity android:name=".TasksActivity" />
-        <activity android:name=".DetailsActivity"></activity>
+        <activity android:name=".DetailsActivity" />
+        <activity android:name=".ProjectInfoActivity" />
+        <activity android:name=".UserActivity" />
+        <activity android:name=".CreateProjectActivity" />
+        <activity android:name=".CreateTaskActivity"></activity>
     </application>
 
 </manifest>

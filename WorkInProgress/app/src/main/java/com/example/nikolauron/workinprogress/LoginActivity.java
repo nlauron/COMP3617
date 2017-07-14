@@ -26,31 +26,18 @@ public class LoginActivity extends AppCompatActivity {
         db = new DBHelper(this);
 
         if (db.getAllUsers().size() <= 0) {
-            User admin = new User(0, "admin", "abc", 0, 0, "Admin");
-            User test = new User(0, "test", "def", 0, 0, "Test");
+            User admin = new User(0, "admin", "abc", 0, 0);
+            User test = new User(0, "test", "def", 0, 0);
             db.addUser(admin);
             db.addUser(test);
         }
 
         if (db.getAllProjects().size() <= 0) {
-            Project origin = new Project(0, "Origin", 0, 0);
+            Project origin = new Project(0, "Origin", "",  0, 0);
         }
     }
-//
-//    public boolean isValidUsername(String username) {
-//        ArrayList<User> temp = db.getAllUsers();
-//        boolean valid = false;
-//        for (User user : temp) {
-//            if (user.getUsername().equals(username)) {
-//                valid = true;
-//            } else {
-//                valid = false;
-//            }
-//        }
-//        return valid;
-//    }
 
-    public boolean isValidPassword(String username, String password) {
+    public boolean isValidCredentials(String username, String password) {
         ArrayList<User> temp = db.getAllUsers();
         boolean valid = false;
         for (User user : temp) {
@@ -73,14 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         String userLogin = username.getText().toString();
         String passLogin = password.getText().toString();
 
-//        if (!isValidUsername(userLogin)){
-//            username.setError("Invalid Username");
-//            valid = false;
-//        } else {
-//            username.setError(null);
-//        }
-
-        if (!isValidPassword(userLogin, passLogin)) {
+        if (!isValidCredentials(userLogin, passLogin)) {
             username.setError("Invalid Username or Password");
             valid = false;
         }

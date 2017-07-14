@@ -65,6 +65,7 @@
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/title"
         android:layout_toRightOf="@+id/title"
+        android:onClick="register"
         android:text="Register" />
 
 </RelativeLayout>

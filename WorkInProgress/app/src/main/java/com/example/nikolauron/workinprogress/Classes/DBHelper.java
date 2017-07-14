@@ -27,11 +27,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String USER_COLUMN_PASSWORD = "password";
     public static final String USER_COLUMN_PROJECTS = "projects";
     public static final String USER_COLUMN_TASKS = "tasks";
-    public static final String USER_COLUMN_ROLE =  "role";
 
     public static final String PROJECT_TABLE_NAME = "projects";
     public static final String PROJECT_COLUMN_ID = "id";
     public static final String PROJECT_COLUMN_PROJECT = "project";
+    public static final String PROJECT_COLUMN_DESCRIPTION = "description";
     public static final String PROJECT_COLUMN_USERS = "users";
     public static final String PROJECT_COLUMN_TASKS = "tasks";
 
@@ -39,7 +39,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TASK_COLUMN_ID = "id";
     public static final String TASK_COLUMN_TASK = "task";
     public static final String TASK_COLUMN_USER = "user";
+    public static final String TASK_COLUMN_PROJECT = "project";
     public static final String TASK_COLUMN_CREATOR = "creator";
+    public static final String TASK_COLUMN_COMPLETE = "complete";
 
     public DBHelper (Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -57,8 +59,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "username TEXT, " +
                 "password TEXT, " +
                 "projects INTEGER, " +
-                "tasks INTEGER, " +
-                "role TEXT" +
+                "tasks INTEGER" +
                 ")";
         db.execSQL(CREATE_TABLE);
 
@@ -66,6 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "project TEXT, " +
+                "description TEXT, " +
                 "users INTEGER, " +
                 "tasks INTEGER, " +
                 ")";
@@ -76,7 +78,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "task TEXT, " +
                 "user TEXT, " +
-                "creator TEXT" +
+                "project TEXT, " +
+                "creator TEXT, " +
+                "complete INTEGER" +
                 ")";
         db.execSQL(CREATE_TABLE);
     }
@@ -94,7 +98,6 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(USER_COLUMN_PASSWORD, u.getPassword());
         values.put(USER_COLUMN_PROJECTS, u.getProjects());
         values.put(USER_COLUMN_TASKS, u.getTasks());
-        values.put(USER_COLUMN_ROLE, u.getRole());
         db.insert(USER_TABLE_NAME, null, values);
     }
 
@@ -102,6 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PROJECT_COLUMN_PROJECT, p.getProject());
+        values.put(PROJECT_COLUMN_DESCRIPTION, p.getDescription());
         values.put(PROJECT_COLUMN_USERS, p.getUsers());
         values.put(PROJECT_COLUMN_TASKS, p.getTasks());
         db.insert(PROJECT_TABLE_NAME, null, values);
@@ -112,7 +116,9 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(TASK_COLUMN_TASK, t.getTask());
         values.put(TASK_COLUMN_USER, t.getUser());
+        values.put(TASK_COLUMN_PROJECT, t.getProject());
         values.put(TASK_COLUMN_CREATOR, t.getCreator());
+        values.put(TASK_COLUMN_COMPLETE, t.getComplete());
         db.insert(TASK_TABLE_NAME, null, values);
     }
 
@@ -144,8 +150,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getInt(3),
-                        cursor.getInt(4),
-                        cursor.getString(5)
+                        cursor.getInt(4)
                 );
                 users.add(temp);
             } while (cursor.moveToNext());
@@ -165,8 +170,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 Project temp = new Project(
                         cursor.getInt(0),
                         cursor.getString(1),
-                        cursor.getInt(2),
-                        cursor.getInt(3)
+                        cursor.getString(2),
+                        cursor.getInt(3),
+                        cursor.getInt(4)
                 );
                 projects.add(temp);
             } while (cursor.moveToNext());
@@ -187,7 +193,9 @@ public class DBHelper extends SQLiteOpenHelper {
                         cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getString(2),
-                        cursor.getString(3)
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getInt(5)
                 );
                 tasks.add(temp);
             } while (cursor.moveToNext());
@@ -200,7 +208,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.query(USER_TABLE_NAME,
-                new String[] {USER_COLUMN_ID, USER_COLUMN_USERNAME, USER_COLUMN_PASSWORD, USER_COLUMN_PROJECTS, USER_COLUMN_TASKS, USER_COLUMN_ROLE},
+                new String[] {USER_COLUMN_ID, USER_COLUMN_USERNAME, USER_COLUMN_PASSWORD, USER_COLUMN_PROJECTS, USER_COLUMN_TASKS},
                 USER_COLUMN_ID + " = ?",
                 new String[] {id},
                 null,
@@ -216,8 +224,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getInt(3),
-                cursor.getInt(4),
-                cursor.getString(5)
+                cursor.getInt(4)
         );
     }
 
@@ -225,7 +232,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.query(PROJECT_TABLE_NAME,
-                new String[] {PROJECT_COLUMN_ID, PROJECT_COLUMN_PROJECT, PROJECT_COLUMN_USERS, PROJECT_COLUMN_TASKS},
+                new String[] {PROJECT_COLUMN_ID, PROJECT_COLUMN_PROJECT, PROJECT_COLUMN_DESCRIPTION, PROJECT_COLUMN_USERS, PROJECT_COLUMN_TASKS},
                 USER_COLUMN_ID + " = ?",
                 new String[] {id},
                 null,
@@ -239,8 +246,9 @@ public class DBHelper extends SQLiteOpenHelper {
         return new Project(
                 cursor.getInt(0),
                 cursor.getString(1),
-                cursor.getInt(2),
-                cursor.getInt(3)
+                cursor.getString(2),
+                cursor.getInt(3),
+                cursor.getInt(4)
         );
     }
 
@@ -248,7 +256,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.query(TASK_TABLE_NAME,
-                new String[] {TASK_COLUMN_ID, TASK_COLUMN_TASK, TASK_COLUMN_USER, TASK_COLUMN_CREATOR},
+                new String[] {TASK_COLUMN_ID, TASK_COLUMN_TASK, TASK_COLUMN_USER, TASK_COLUMN_PROJECT, TASK_COLUMN_CREATOR, TASK_COLUMN_COMPLETE},
                 TASK_COLUMN_ID + " = ?",
                 new String[] {id},
                 null,
@@ -263,7 +271,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor.getInt(0),
                 cursor.getString(1),
                 cursor.getString(2),
-                cursor.getString(3)
+                cursor.getString(3),
+                cursor.getString(4),
+                cursor.getInt(5)
         );
     }
 
@@ -275,7 +285,6 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(USER_COLUMN_PASSWORD, newUser.getPassword());
         values.put(USER_COLUMN_PROJECTS, newUser.getProjects());
         values.put(USER_COLUMN_TASKS, newUser.getTasks());
-        values.put(USER_COLUMN_ROLE, newUser.getRole());
 
         this.getWritableDatabase().update(
                 USER_TABLE_NAME,
@@ -290,6 +299,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(PROJECT_COLUMN_PROJECT, newProject.getProject());
+        values.put(PROJECT_COLUMN_DESCRIPTION, newProject.getProject());
         values.put(PROJECT_COLUMN_USERS, newProject.getUsers());
         values.put(PROJECT_COLUMN_TASKS, newProject.getTasks());
 
@@ -308,6 +318,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(TASK_COLUMN_TASK, newTask.getTask());
         values.put(TASK_COLUMN_USER, newTask.getUser());
         values.put(TASK_COLUMN_CREATOR, newTask.getCreator());
+        values.put(TASK_COLUMN_COMPLETE, newTask.getComplete());
 
         this.getWritableDatabase().update(
                 TASK_TABLE_NAME,
