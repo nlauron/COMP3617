@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import ca.bcit.cartoonapp.database.CartoonHelper;
+
 /**
  * Created by Niko Lauron on 7/4/2017.
  */
@@ -45,8 +47,9 @@ public class CartoonProvider extends ContentProvider {
             {
                 final SQLiteDatabase db;
 
-                db = cartoonHelper.getWritableDatabase();
+                db     = cartoonHelper.getWritableDatabase();
                 cursor = cartoonHelper.getAllCharacters(getContext(), db);
+
                 break;
             }
             default:

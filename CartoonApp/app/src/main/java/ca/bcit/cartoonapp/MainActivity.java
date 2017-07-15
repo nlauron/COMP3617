@@ -3,7 +3,6 @@ package ca.bcit.cartoonapp;
 import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ca.bcit.cartoonapp.database.CartoonHelper;
+import ca.bcit.cartoonapp.database.schema.Cartoon;
 
 public class MainActivity
     extends ListActivity
@@ -45,39 +47,54 @@ public class MainActivity
                                                  names);
         setListAdapter(namesAdapter);
 
-        Ion.with(this)
-                .load("http://cartoonapi.azurewebsites.net/api/cartoon")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>()
-                {
-                    @Override
-                    public void onCompleted(final Exception ex,
-                                            final JsonArray result)
-                    {
-                        if(ex == null)
-                        {
-                            for(final JsonElement element : result)
-                            {
-                                final JsonObject object;
-                                final String     name;
-                                final String     pictureUrl;
+        setupDb();
 
-                                object     = element.getAsJsonObject();
-                                name       = object.get("name").getAsString();
-                                pictureUrl = object.get("pictureUrl").getAsString();
-                                System.out.println(name + " -> " + pictureUrl);
-                                names.add(name);
-                                namesPictures.put(name, pictureUrl);
+        if (db.getNumberOfCartoons () == 0) {
+            Ion.with(this)
+                    .load("http://cartoonapi.azurewebsites.net/api/cartoon")
+                    .asJsonArray()
+                    .setCallback(new FutureCallback<JsonArray>() {
+                        @Override
+                        public void onCompleted(final Exception ex,
+                                                final JsonArray result) {
+                            if (ex == null) {
+                                for (final JsonElement element : result) {
+                                    final JsonObject object;
+                                    final String name;
+                                    final String pictureUrl;
+
+                                    object = element.getAsJsonObject();
+                                    name = object.get("name").getAsString();
+                                    pictureUrl = object.get("pictureUrl").getAsString();
+                                    System.out.println(name + " -> " + pictureUrl);
+                                    db.createCartoon(name, pictureUrl);
+                                    names.add(name);
+                                    namesPictures.put(name, pictureUrl);
+                                }
+
+                                MainActivity.this.namesAdapter.notifyDataSetChanged();
+                            } else {
+                                ex.printStackTrace();
                             }
+                        }
+                    });
+        } else {
+            List<Cartoon> ct = db.getCartoons();
+            for (Cartoon c : ct) {
+                names.add(c.getName());
+                namesPictures.put(c.getName(), c.getPictureuri());
+            }
+        }
+    }
 
-                            MainActivity.this.namesAdapter.notifyDataSetChanged();
-                        }
-                        else
-                        {
-                            ex.printStackTrace();
-                        }
-                    }
-                });
+    private void setupDb() {
+        db = CartoonHelper.getInstance(getApplicationContext());
+        db.openDatabaseForWriting(getApplicationContext());
+    }
+
+    private void close () {
+        if (db != null)
+            db.close();
     }
 
     @Override
