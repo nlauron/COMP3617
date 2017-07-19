@@ -92,8 +92,6 @@ public class CreateTaskActivity extends AppCompatActivity {
         } else {
             task = new Task(0, name, userId, projectId, username, 0);
             db.addTask(task);
-            Intent intent = getIntent();
-            startActivity(intent);
             finish();
         }
     }

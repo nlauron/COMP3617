@@ -102,9 +102,7 @@ public class CreateProjectActivity extends AppCompatActivity {
 
                 task = new Task(0, taskName, userId, projectId, user, 0);
                 db.addTask(task);
-
                 finish();
-                recreate();
             }
         }
     }

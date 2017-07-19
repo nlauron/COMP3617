@@ -71,6 +71,54 @@ public class ProjectsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        db = new DBHelper(this);
+
+        projects = new ArrayList<>();
+        userLogin = getIntent().getStringExtra("login");
+        ArrayList<User> tempUser = db.getAllUsers();
+        ArrayList<Task> tempTask = db.getAllTasks();
+
+        for (User temp : tempUser) {
+            if (temp.getUsername().equals(userLogin)) {
+                user = db.getUser(Integer.toString(temp.getId()));
+            }
+        }
+
+        for (Task temp : tempTask) {
+            if (temp.getUserId() == user.getId()) {
+                project = db.getProject(Integer.toString(temp.getProjectId()));
+                projects.add(project.getProject());
+            }
+        }
+
+        Set<String> tempList = new HashSet<>();
+        tempList.addAll(projects);
+        projects.clear();
+        projects.addAll(tempList);
+        projectList = projects.toArray(new String[0]);
+
+        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.listview, projectList);
+        ListView listView = (ListView) findViewById(R.id.projectList);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ProjectsActivity.this, TasksActivity.class);
+                intent.putExtra("project", projectList[position]);
+                intent.putExtra("user", userLogin);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void logout(View view) {
+        finish();
+    }
+
     public void createProject(View view) {
         Intent intent = new Intent(this, CreateProjectActivity.class);
         intent.putExtra("user", userLogin);

@@ -50,6 +50,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        db = new DBHelper(this);
+    }
+
     public boolean isValidCredentials(String username, String password) {
         ArrayList<User> temp = db.getAllUsers();
         boolean valid = false;

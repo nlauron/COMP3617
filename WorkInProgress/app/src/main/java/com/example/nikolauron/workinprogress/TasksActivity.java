@@ -41,6 +41,64 @@ public class TasksActivity extends AppCompatActivity {
         for (User temp : users) {
             if (temp.getUsername().equals(username)) {
                 user = db.getUser(Integer.toString(temp.getId()));
+                System.out.println("I am called: " + user.getUsername());
+            }
+        }
+
+        ArrayList<Project> projects = db.getAllProjects();
+        for (Project temp : projects) {
+            if (temp.getProject().equals(projectName)) {
+                project = db.getProject(Integer.toString(temp.getId()));
+                System.out.println("I am called: " + project.getProject());
+            }
+        }
+
+        ArrayList<Task> tempList = db.getAllTasks();
+        for (Task task : tempList) {
+            if(task.getUserId() == user.getId() && task.getProjectId() == project.getId()) {
+                System.out.println("I am called: " + user.getId());
+                System.out.println("I am called: " + task.getUserId());
+                System.out.println("I am called: " + project.getId());
+                System.out.println("I am called: " + task.getProjectId());
+                tasks.add(task.getTask());
+            }
+        }
+
+        taskList = tasks.toArray(new String[0]);
+        status = new String[tasks.size()];
+
+        for (Task tempTask : tempList) {
+            if (tempTask.getComplete() == 0) {
+                status[tempTask.getId()] = "Not Complete";
+            } else {
+                status[tempTask.getId()] = "Completed";
+            }
+        }
+
+        listView = (ListView) findViewById(R.id.taskList);
+        adapter = new ListViewAdapter(this, taskList, status);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(TasksActivity.this, DetailsActivity.class);
+                intent.putExtra("task", taskList[position]);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        db = new DBHelper(this);
+        username = getIntent().getStringExtra("user");
+        projectName = getIntent().getStringExtra("project");
+
+        ArrayList<User> users = db.getAllUsers();
+        for (User temp : users) {
+            if (temp.getUsername().equals(username)) {
+                user = db.getUser(Integer.toString(temp.getId()));
             }
         }
 
