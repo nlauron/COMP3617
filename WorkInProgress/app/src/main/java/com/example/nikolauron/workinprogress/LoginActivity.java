@@ -36,14 +36,14 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (db.getAllProjects().size() <= 0) {
-            Project test = new Project(1, "Test Project", "", 0);
+            Project test = new Project(1, "Test Project", "Test Project", 0);
             db.addProject(test);
         }
 
         if (db.getAllTasks().size() <= 0) {
-            Task testOne = new Task(1, "Test One", 1, 1, "Admin", 0);
-            Task testTwo = new Task(2, "Test Two", 1, 1, "Admin", 0);
-            Task testThree = new Task(3, "Test Three", 1, 1, "Admin", 0);
+            Task testOne = new Task(1, "Test One", "This is the first task", 1, 1, "Admin", 1);
+            Task testTwo = new Task(2, "Test Two", "This is the second task", 1, 1, "Admin", 0);
+            Task testThree = new Task(3, "Test Three", "This is the third task",  1, 1, "Admin", 0);
             db.addTask(testOne);
             db.addTask(testTwo);
             db.addTask(testThree);

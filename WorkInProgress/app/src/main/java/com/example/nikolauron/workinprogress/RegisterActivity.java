@@ -46,6 +46,10 @@ public class RegisterActivity extends AppCompatActivity {
         return valid;
     }
 
+    public void backRegister(View view) {
+        finish();
+    }
+
     public void register(View view) {
         username = (EditText) findViewById(R.id.usernameET);
         password = (EditText) findViewById(R.id.passwordET);

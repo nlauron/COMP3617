@@ -19,13 +19,14 @@ import java.util.ArrayList;
 public class TasksActivity extends AppCompatActivity {
 
     private DBHelper db;
+    private int numOfTasks;
     private String username;
     private String projectName;
     private User user;
     private Project project;
     private ListView listView;
     private ListViewAdapter adapter;
-    private ArrayList<String> tasks;
+    private ArrayList<Task> tasks;
     private String[] taskList;
     private String[] status;
 
@@ -33,15 +34,16 @@ public class TasksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
+        numOfTasks = 0;
         db = new DBHelper(this);
         username = getIntent().getStringExtra("user");
         projectName = getIntent().getStringExtra("project");
+        tasks = new ArrayList<>();
 
         ArrayList<User> users = db.getAllUsers();
         for (User temp : users) {
             if (temp.getUsername().equals(username)) {
                 user = db.getUser(Integer.toString(temp.getId()));
-                System.out.println("I am called: " + user.getUsername());
             }
         }
 
@@ -49,39 +51,40 @@ public class TasksActivity extends AppCompatActivity {
         for (Project temp : projects) {
             if (temp.getProject().equals(projectName)) {
                 project = db.getProject(Integer.toString(temp.getId()));
-                System.out.println("I am called: " + project.getProject());
             }
         }
 
         ArrayList<Task> tempList = db.getAllTasks();
         for (Task task : tempList) {
             if(task.getUserId() == user.getId() && task.getProjectId() == project.getId()) {
-                System.out.println("I am called: " + user.getId());
-                System.out.println("I am called: " + task.getUserId());
-                System.out.println("I am called: " + project.getId());
-                System.out.println("I am called: " + task.getProjectId());
-                tasks.add(task.getTask());
+                tasks.add(task);
             }
         }
 
-        taskList = tasks.toArray(new String[0]);
+        taskList = new String[tasks.size()];
+        for (int i = 0; i < taskList.length; i++) {
+            taskList[i] = tasks.get(i).getTask();
+        }
+
         status = new String[tasks.size()];
-
-        for (Task tempTask : tempList) {
-            if (tempTask.getComplete() == 0) {
-                status[tempTask.getId()] = "Not Complete";
+        for (int i = 0; i < taskList.length; i++) {
+            if (tasks.get(i).getComplete() == 0) {
+                status[i] = "Not Complete";
             } else {
-                status[tempTask.getId()] = "Completed";
+                status[i] = "Completed";
             }
         }
 
+        numOfTasks = taskList.length;
         listView = (ListView) findViewById(R.id.taskList);
         adapter = new ListViewAdapter(this, taskList, status);
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(TasksActivity.this, DetailsActivity.class);
+                intent.putExtra("project", projectName);
                 intent.putExtra("task", taskList[position]);
                 startActivity(intent);
             }
@@ -91,9 +94,11 @@ public class TasksActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        numOfTasks = 0;
         db = new DBHelper(this);
         username = getIntent().getStringExtra("user");
         projectName = getIntent().getStringExtra("project");
+        tasks = new ArrayList<>();
 
         ArrayList<User> users = db.getAllUsers();
         for (User temp : users) {
@@ -104,7 +109,7 @@ public class TasksActivity extends AppCompatActivity {
 
         ArrayList<Project> projects = db.getAllProjects();
         for (Project temp : projects) {
-            if (project.getProject().equals(projectName)) {
+            if (temp.getProject().equals(projectName)) {
                 project = db.getProject(Integer.toString(temp.getId()));
             }
         }
@@ -112,39 +117,54 @@ public class TasksActivity extends AppCompatActivity {
         ArrayList<Task> tempList = db.getAllTasks();
         for (Task task : tempList) {
             if(task.getUserId() == user.getId() && task.getProjectId() == project.getId()) {
-                tasks.add(task.getTask());
+                tasks.add(task);
             }
         }
 
-        taskList = tasks.toArray(new String[0]);
+        taskList = new String[tasks.size()];
+        for (int i = 0; i < taskList.length; i++) {
+            taskList[i] = tasks.get(i).getTask();
+        }
+
         status = new String[tasks.size()];
-
-        for (Task tempTask : tempList) {
-            if (tempTask.getComplete() == 0) {
-                status[tempTask.getId()] = "Not Complete";
+        for (int i = 0; i < taskList.length; i++) {
+            if (tasks.get(i).getComplete() == 0) {
+                status[i] = "Not Complete";
             } else {
-                status[tempTask.getId()] = "Completed";
+                status[i] = "Completed";
             }
         }
 
+        numOfTasks = taskList.length;
         listView = (ListView) findViewById(R.id.taskList);
         adapter = new ListViewAdapter(this, taskList, status);
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(TasksActivity.this, DetailsActivity.class);
+                intent.putExtra("project", projectName);
                 intent.putExtra("task", taskList[position]);
                 startActivity(intent);
             }
         });
     }
 
+    public void backTask(View view) {
+        finish();
+    }
+
+    public void projectInfo(View view) {
+        Intent intent = new Intent(this, ProjectInfoActivity.class);
+        intent.putExtra("project", projectName);
+        intent.putExtra("tasks", numOfTasks);
+        startActivity(intent);
+    }
     public void createTask(View view) {
         Intent intent = new Intent(this, CreateTaskActivity.class);
         intent.putExtra("user", username);
         intent.putExtra("project", projectName);
         startActivity(intent);
-        finish();
     }
 }

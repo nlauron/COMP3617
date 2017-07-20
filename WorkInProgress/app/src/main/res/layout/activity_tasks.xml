@@ -6,6 +6,14 @@
     android:orientation="vertical">
 
     <Button
+        android:id="@+id/projectInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="projectInfo"
+        android:text="Project Info" />
+
+    <Button
         android:id="@+id/createTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +24,13 @@
     <ListView
         android:id="@+id/taskList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="backTask"
+        android:text="back"/>
 
 </LinearLayout>

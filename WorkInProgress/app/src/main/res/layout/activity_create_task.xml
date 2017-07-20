@@ -24,11 +24,29 @@
     </EditText>
 
     <TextView
-        android:id="@+id/userTV"
+        android:id="@+id/taskNotesTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/taskNameTV"
         android:layout_below="@+id/taskNameTV"
+        android:layout_marginTop="40dp"
+        android:text="Task Notes:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/taskNotesET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/taskNotesTV"
+        android:layout_alignLeft="@+id/taskNameET"
+        android:layout_alignRight="@+id/taskNameET" />
+
+    <TextView
+        android:id="@+id/userTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/taskNotesTV"
+        android:layout_below="@+id/taskNotesTV"
         android:layout_marginTop="40dp"
         android:text="Assign to:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -41,15 +59,22 @@
         android:layout_alignLeft="@+id/taskNameET"
         android:layout_alignRight="@+id/taskNameET" />
 
-
     <Button
-        android:id="@+id/registerBtn"
+        android:id="@+id/createTaskBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userList"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="95dp"
-        android:onClick="createNewProject"
-        android:text="Create Project" />
+        android:onClick="createTask"
+        android:text="Create Task" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createTaskBtn"
+        android:layout_centerHorizontal="true"
+        android:onClick="backCreateTask"
+        android:text="back"/>
 
 </RelativeLayout>

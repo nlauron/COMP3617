@@ -22,6 +22,7 @@ public class ProjectsActivity extends AppCompatActivity {
     private DBHelper db;
     private User user;
     private Project project;
+    private int tasksNum;
     private String userLogin;
     private ArrayList<String> projects;
     private String[] projectList;
@@ -31,6 +32,7 @@ public class ProjectsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
         db = new DBHelper(this);
+        tasksNum = 0;
 
         projects = new ArrayList<>();
         userLogin = getIntent().getStringExtra("login");
@@ -47,6 +49,7 @@ public class ProjectsActivity extends AppCompatActivity {
             if (temp.getUserId() == user.getId()) {
                 project = db.getProject(Integer.toString(temp.getProjectId()));
                 projects.add(project.getProject());
+                tasksNum++;
             }
         }
 
@@ -75,6 +78,7 @@ public class ProjectsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         db = new DBHelper(this);
+        tasksNum = 0;
 
         projects = new ArrayList<>();
         userLogin = getIntent().getStringExtra("login");
@@ -91,6 +95,7 @@ public class ProjectsActivity extends AppCompatActivity {
             if (temp.getUserId() == user.getId()) {
                 project = db.getProject(Integer.toString(temp.getProjectId()));
                 projects.add(project.getProject());
+                tasksNum++;
             }
         }
 
@@ -117,6 +122,14 @@ public class ProjectsActivity extends AppCompatActivity {
 
     public void logout(View view) {
         finish();
+    }
+
+    public void userInfo(View view) {
+        Intent intent = new Intent(this, UserActivity.class);
+        intent.putExtra("user", userLogin);
+        intent.putExtra("projects", projectList.length);
+        intent.putExtra("tasks", tasksNum);
+        startActivity(intent);
     }
 
     public void createProject(View view) {

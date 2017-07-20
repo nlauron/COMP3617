@@ -37,6 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TASK_TABLE_NAME = "tasks";
     public static final String TASK_COLUMN_ID = "id";
     public static final String TASK_COLUMN_TASK = "task";
+    public static final String TASK_COLUMN_NOTES = "notes";
     public static final String TASK_COLUMN_USERID = "userId";
     public static final String TASK_COLUMN_PROJECTID = "projectId";
     public static final String TASK_COLUMN_CREATOR = "creator";
@@ -75,6 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 "task TEXT, " +
+                "notes TEXT, " +
                 "userId INTEGER, " +
                 "projectId INTEGER, " +
                 "creator TEXT, " +
@@ -112,6 +114,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TASK_COLUMN_TASK, t.getTask());
+        values.put(TASK_COLUMN_NOTES, t.getNotes());
         values.put(TASK_COLUMN_USERID, t.getUserId());
         values.put(TASK_COLUMN_PROJECTID, t.getProjectId());
         values.put(TASK_COLUMN_CREATOR, t.getCreator());
@@ -188,10 +191,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 Task temp = new Task (
                         cursor.getInt(0),
                         cursor.getString(1),
-                        cursor.getInt(2),
+                        cursor.getString(2),
                         cursor.getInt(3),
-                        cursor.getString(4),
-                        cursor.getInt(5)
+                        cursor.getInt(4),
+                        cursor.getString(5),
+                        cursor.getInt(6)
                 );
                 tasks.add(temp);
             } while (cursor.moveToNext());
@@ -251,7 +255,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.query(TASK_TABLE_NAME,
-                new String[] {TASK_COLUMN_ID, TASK_COLUMN_TASK, TASK_COLUMN_USERID, TASK_COLUMN_PROJECTID, TASK_COLUMN_CREATOR, TASK_COLUMN_COMPLETE},
+                new String[] {TASK_COLUMN_ID, TASK_COLUMN_TASK, TASK_COLUMN_NOTES, TASK_COLUMN_USERID, TASK_COLUMN_PROJECTID, TASK_COLUMN_CREATOR, TASK_COLUMN_COMPLETE},
                 TASK_COLUMN_ID + " = ?",
                 new String[] {id},
                 null,
@@ -265,10 +269,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return new Task (
                 cursor.getInt(0),
                 cursor.getString(1),
-                cursor.getInt(2),
+                cursor.getString(2),
                 cursor.getInt(3),
-                cursor.getString(4),
-                cursor.getInt(5)
+                cursor.getInt(4),
+                cursor.getString(5),
+                cursor.getInt(6)
         );
     }
 
@@ -310,6 +315,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(TASK_COLUMN_TASK, newTask.getTask());
+        values.put(TASK_COLUMN_NOTES, newTask.getNotes());
         values.put(TASK_COLUMN_USERID, newTask.getUserId());
         values.put(TASK_COLUMN_PROJECTID, newTask.getProjectId());
         values.put(TASK_COLUMN_CREATOR, newTask.getCreator());

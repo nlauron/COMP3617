@@ -22,6 +22,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     private String projectName;
     private Task task;
     private EditText taskName;
+    private EditText notes;
     private Spinner userspin;
     private String[] users;
     private ArrayList<String> usersLists;
@@ -35,13 +36,14 @@ public class CreateTaskActivity extends AppCompatActivity {
         username = getIntent().getStringExtra("user");
         projectName = getIntent().getStringExtra("project");
         userspin = (Spinner) findViewById(R.id.userList);
+        usersLists = new ArrayList<>();
 
         ArrayList<User> tempUserList = db.getAllUsers();
         for (User temp : tempUserList) {
             usersLists.add(temp.getUsername());
         }
         users = usersLists.toArray(new String[0]);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, users);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, users);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userspin.setAdapter(adapter);
     }
@@ -79,10 +81,16 @@ public class CreateTaskActivity extends AppCompatActivity {
         return valid;
     }
 
+    public void backCreateTask(View view) {
+        finish();
+    }
+
     public void createTask(View view) {
         taskName = (EditText) findViewById(R.id.taskNameET);
+        notes = (EditText) findViewById(R.id.taskNotesET);
         userspin = (Spinner) findViewById(R.id.userList);
         String name = taskName.getText().toString();
+        String taskNotes = notes.getText().toString();
         String user = userspin.getSelectedItem().toString();
         int userId = getUserId(user);
         int projectId = getProjectId(projectName);
@@ -90,7 +98,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         if (!validate(name, user)) {
             taskName.setError("Invalid Task Name or Selected User");
         } else {
-            task = new Task(0, name, userId, projectId, username, 0);
+            task = new Task(0, name, taskNotes, userId, projectId, username, 0);
             db.addTask(task);
             finish();
         }

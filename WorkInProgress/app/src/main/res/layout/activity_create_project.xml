@@ -59,14 +59,40 @@
         android:layout_alignLeft="@+id/descriptionET"
         android:layout_alignRight="@+id/descriptionET" />
 
-    <Button
-        android:id="@+id/registerBtn"
+    <TextView
+        android:id="@+id/notesTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/taskET"
+        android:layout_alignLeft="@+id/taskTV"
+        android:layout_below="@+id/taskTV"
+        android:layout_marginTop="40dp"
+        android:text="Task Notes:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/notesET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/notesTV"
+        android:layout_alignLeft="@+id/descriptionET"
+        android:layout_alignRight="@+id/descriptionET" />
+
+    <Button
+        android:id="@+id/createProjectBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notesET"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="95dp"
         android:onClick="createNewProject"
         android:text="Create Project" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createProjectBtn"
+        android:layout_centerHorizontal="true"
+        android:onClick="backProject"
+        android:text="back"/>
 
 </RelativeLayout>

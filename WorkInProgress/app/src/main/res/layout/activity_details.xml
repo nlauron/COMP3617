@@ -7,7 +7,7 @@
     tools:context=".DetailsActivity">
 
     <TableLayout
-        android:id="@+id/btnTable"
+        android:id="@+id/projectTable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/addressTile"
+                android:id="@+id/project"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/button1"
@@ -28,51 +28,120 @@
                 android:text="Project:" />
 
             <TextView
-                android:id="@+id/address"
+                android:id="@+id/projectName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/addressTile"
+                android:layout_alignBottom="@+id/project"
                 android:layout_marginLeft="50dp"
-                android:layout_toRightOf="@+id/addressTile"
-                android:text="Project Title">
+                android:layout_toRightOf="@+id/project"
+                android:text="Project Title"/>
 
-            </TextView>
+        </TableRow>
+        <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/creator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/button1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignStart="@+id/button1"
+                android:layout_marginLeft="10dp"
+                android:text="Creator:" />
+
+            <TextView
+                android:id="@+id/creatorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/creator"
+                android:layout_marginLeft="50dp"
+                android:layout_toRightOf="@+id/creator"
+                android:text="Creator Title"/>
+        </TableRow>
+        <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/owner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/button1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignStart="@+id/button1"
+                android:layout_marginLeft="10dp"
+                android:text="Owner:" />
+
+            <TextView
+                android:id="@+id/ownerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/creator"
+                android:layout_marginLeft="50dp"
+                android:layout_toRightOf="@+id/creator"
+                android:text="Owner Title"/>
         </TableRow>
     </TableLayout>
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/notesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:text="Task Notes:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description and Notes"
-        android:textStyle="bold" />
+        android:text="Description and Notes" />
 
-    <Button
-        android:id="@+id/update"
+    <TableLayout
+        android:id="@+id/btnsTable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update Task" />
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp">
+
+        <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="update"
+                android:text="Update Task" />
+
+            <Button
+                android:id="@+id/complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="complete"
+                android:text="Complete Task" />
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="delete"
+                android:text="Delete Task" />
+        </TableRow>
+    </TableLayout>
 
     <Button
-        android:id="@+id/complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Complete Task" />
-
-    <Button
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete Task" />
+        android:layout_below="@+id/createProjectBtn"
+        android:layout_gravity="center"
+        android:onClick="backDetails"
+        android:text="back"/>
 
 </LinearLayout>

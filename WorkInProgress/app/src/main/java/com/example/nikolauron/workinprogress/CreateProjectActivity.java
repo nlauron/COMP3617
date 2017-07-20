@@ -20,6 +20,7 @@ public class CreateProjectActivity extends AppCompatActivity {
     private EditText projectTitle;
     private EditText projectDesc;
     private EditText initTask;
+    private EditText notes;
     private Project project;
     private Task task;
 
@@ -31,10 +32,10 @@ public class CreateProjectActivity extends AppCompatActivity {
         user = getIntent().getStringExtra("user");
     }
 
-    public boolean validate(String projectName, String description, String taskName) {
+    public boolean validate(String projectName, String description, String taskName, String notes) {
         boolean valid;
 
-        if (projectName.equals("") || description.equals("") || taskName.equals("")) {
+        if (projectName.equals("") || description.equals("") || taskName.equals("") || notes.equals("")) {
             valid = false;
         } else {
             valid = true;
@@ -79,16 +80,22 @@ public class CreateProjectActivity extends AppCompatActivity {
         return id;
     }
 
+    public void backProject(View view) {
+        finish();
+    }
+
     public void createNewProject(View view) {
         projectTitle = (EditText) findViewById(R.id.projectTitleET);
         projectDesc = (EditText) findViewById(R.id.descriptionET);
         initTask = (EditText) findViewById(R.id.taskET);
+        notes = (EditText) findViewById(R.id.notesET) ;
 
         String title = projectTitle.getText().toString();
         String desc = projectDesc.getText().toString();
         String taskName = initTask.getText().toString();
+        String taskNotes = notes.getText().toString();
 
-        if (!validate(title, desc, taskName)) {
+        if (!validate(title, desc, taskName, taskNotes)) {
             projectTitle.setError("Cannot leave fields blank");
         } else {
             if (!duplicate(title)) {
@@ -100,7 +107,7 @@ public class CreateProjectActivity extends AppCompatActivity {
                 int userId = getUserId(user);
                 int projectId = getProjectId(title);
 
-                task = new Task(0, taskName, userId, projectId, user, 0);
+                task = new Task(0, taskName, taskNotes, userId, projectId, user, 0);
                 db.addTask(task);
                 finish();
             }
