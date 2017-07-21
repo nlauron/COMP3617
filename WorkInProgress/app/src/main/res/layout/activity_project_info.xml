@@ -57,9 +57,17 @@
         android:text="Description and Notes" />
 
     <Button
+        android:id="@+id/descUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="75dp"
+        android:onClick="updateProject"
+        android:text="Update Description" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:onClick="backProjectInfo"
         android:text="Back"/>

@@ -299,7 +299,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(PROJECT_COLUMN_PROJECT, newProject.getProject());
-        values.put(PROJECT_COLUMN_DESCRIPTION, newProject.getProject());
+        values.put(PROJECT_COLUMN_DESCRIPTION, newProject.getDescription());
         values.put(PROJECT_COLUMN_TASKS, newProject.getTasks());
 
         this.getWritableDatabase().update(

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.nikolauron.workinprogress.Classes.DBHelper;
 import com.example.nikolauron.workinprogress.Classes.Project;
+import com.example.nikolauron.workinprogress.Classes.Task;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ public class ProjectInfoActivity extends AppCompatActivity {
 
     private DBHelper db;
     private int numOfTasks;
+    private Project proj;
     private String projectName;
     private TextView tasksNum;
     private EditText description;
@@ -38,9 +40,18 @@ public class ProjectInfoActivity extends AppCompatActivity {
         for (Project temp : tempList) {
             if (temp.getProject().equals(projectName)) {
                 description.setText(temp.getDescription());
+                proj = db.getProject(Integer.toString(temp.getId()));
             }
         }
 
+    }
+
+    public void updateProject(View view) {
+        Project oldProject = proj;
+        String newNotes = description.getText().toString();
+        proj.setDescription(newNotes);
+        db.updateProject(Integer.toString(oldProject.getId()), proj);
+        finish();
     }
 
     public void backProjectInfo(View view) {
