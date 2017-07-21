@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.nikolauron.workinprogress.Classes.DBHelper;
+import com.example.nikolauron.workinprogress.Classes.Project;
 import com.example.nikolauron.workinprogress.Classes.Task;
 import com.example.nikolauron.workinprogress.Classes.User;
 
@@ -18,11 +19,13 @@ public class DetailsActivity extends AppCompatActivity {
 
     private DBHelper db;
     private String taskName;
+    private String projName;
     private TextView project;
     private TextView owner;
     private TextView creator;
     private EditText description;
     private Task task;
+    private Project proj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         db = new DBHelper(this);
         taskName = getIntent().getStringExtra("task");
+        projName = getIntent().getStringExtra("project");
         project = (TextView) findViewById(R.id.projectName);
         owner  = (TextView) findViewById(R.id.ownerName);
         creator = (TextView) findViewById(R.id.creatorName);
@@ -42,7 +46,14 @@ public class DetailsActivity extends AppCompatActivity {
             }
         }
 
-        project.setText(task.getTask());
+        ArrayList<Project> tempList = db.getAllProjects();
+        for (Project temp : tempList) {
+            if (temp.getProject().equals(projName)) {
+                proj = db.getProject(Integer.toString(temp.getId()));
+            }
+        }
+
+        project.setText(proj.getProject());
         creator.setText(task.getCreator());
         description.setText(task.getNotes(), TextView.BufferType.EDITABLE);
 
