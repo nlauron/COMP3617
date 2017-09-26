@@ -16,11 +16,15 @@ public class Ball : MonoBehaviour {
 		
 	}
 
-    private void OnCollisionEnter(Collision collision)
+    private void blueCollision(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
-        {
-            Application.LoadLevel(Application.loadedLevel);
-        }
+        if (collision.gameObject.tag == "Blue")
+            BlueScore.score += 1;
+    }
+
+    private void redCollision(Collision collision)
+    {
+        if (collision.gameObject.tag == "Red")
+            RedScore.score += 1;
     }
 }
