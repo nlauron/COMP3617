@@ -80,11 +80,16 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Ball.cs" />
     <Compile Include="Assets\Scripts\BlueScore.cs" />
+    <Compile Include="Assets\Scripts\Console.cs" />
     <Compile Include="Assets\Scripts\LeftPaddle.cs" />
+    <Compile Include="Assets\Scripts\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\PlayAgain.cs" />
+    <Compile Include="Assets\Scripts\PongAI.cs" />
     <Compile Include="Assets\Scripts\RedScore.cs" />
     <Compile Include="Assets\Scripts\RightPaddle.cs" />
     <Compile Include="Assets\Scripts\SinglePlayer.cs" />
     <Compile Include="Assets\Scripts\TwoPlayer.cs" />
+    <Compile Include="Assets\Scripts\Winner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
