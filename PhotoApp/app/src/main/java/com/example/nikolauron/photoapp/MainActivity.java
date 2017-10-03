@@ -1,9 +1,14 @@
 package com.example.nikolauron.photoapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.example.nikolauron.photoapp.Classes.Cell;
+import com.example.nikolauron.photoapp.Classes.MyAdapter;
 
 import java.util.ArrayList;
 
@@ -56,5 +61,10 @@ public class MainActivity extends AppCompatActivity {
             theimage.add(cell);
         }
         return theimage;
+    }
+
+    private void filter(View view) {
+        Intent i = new Intent(this, SearchActivity.class);
+        startActivity(i);
     }
 }
