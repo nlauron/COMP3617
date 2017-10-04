@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/Project/Scenes/CharacterTest.unity
-  isLoaded: 1
-  isActive: 1
