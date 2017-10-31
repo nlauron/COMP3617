@@ -24,7 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String PHOTO_COLUMN_TITLE = "title";
     public static final String PHOTO_COLUMN_DATE = "date";
 
-    private DBHelper (Context context) {
+    public DBHelper (Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         //this.onUpgrade(this.getWritableDatabase(), 1, 2);
     }

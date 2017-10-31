@@ -11,10 +11,15 @@ public class Photo {
     private String date;
 
 
-    public Photo(Integer id, String title, String date) {
+    private String location;
+    private String caption;
+
+    public Photo(Integer id, String title, String date, String location, String caption) {
         this.id = id;
         this.title = title;
         this.date = date;
+        this.location = location;
+        this.caption = caption;
     }
 
     public Integer getId() {
@@ -39,5 +44,21 @@ public class Photo {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 }

@@ -3,6 +3,7 @@ package com.example.nikolauron.photoapp;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import com.example.nikolauron.photoapp.Classes.DBHelper;
 import com.example.nikolauron.photoapp.Classes.Photo;
@@ -51,5 +52,23 @@ public class ExampleInstrumentedTest {
         db.close();
     }
 
+    @Test
+    public void DBHelper_isWorking() throws Exception {
+        ArrayList<Photo> photos = null;
 
+        photos = db.getAllPhotos();
+        Log.d("Photo date",  "1-" + photos.get(0).getDate() + "-2020");
+        assertEquals(7, photos.size());
+    }
+
+    @Test
+    public void Filter_isWorking() throws Exception {
+        ArrayList<Photo> photos = null;
+        String date;
+
+        photos = db.getAllPhotos();
+        date = "1-3-2020";
+        assertEquals(photos.get(2).getDate(), date);
+        assertNotEquals(photos.get(3).getDate(), date);
+    }
 }
