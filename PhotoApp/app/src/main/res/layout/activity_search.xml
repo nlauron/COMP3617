@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/keyword"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="25dp"/>
+
+    <TableLayout
+        android:id="@+id/table"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/keyword"
+        android:layout_centerHorizontal="true">
+
+        <TableRow>
+            <EditText
+                android:id="@+id/startDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="25dp"/>
+
+            <EditText
+                android:id="@+id/endDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/startDate"
+                android:paddingTop="25dp"/>
+        </TableRow>
+
+        <TableRow>
+            <EditText
+                android:id="@+id/latlongTL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="25dp"/>
+
+            <EditText
+                android:id="@+id/latlongBR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/latlongTL"
+                android:paddingTop="25dp"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/table"/>
+
+</RelativeLayout>
