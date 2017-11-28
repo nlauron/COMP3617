@@ -4,8 +4,17 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.example.nikolauron.workinonit.Classes.DBHelper;
+import com.example.nikolauron.workinonit.Classes.Project;
+import com.example.nikolauron.workinonit.Classes.Task;
+import com.example.nikolauron.workinonit.Classes.User;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -23,4 +32,74 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.example.nikolauron.workinonit", appContext.getPackageName());
     }
+
+    private DBHelper db;
+
+    @Before
+    public void setUp() {
+        db = DBHelper.getInstance(InstrumentationRegistry.getTargetContext());
+        for (int i = 0; i < 4; i++) {
+                User testUsers = new User(i, "User" + i, "abc", 0, 0);
+                db.addUser(testUsers);
+
+                Project testProjects = new Project(1, "Test Project " + i, "Test Project" + i, 0);
+                db.addProject(testProjects);
+
+                Task testTasks = new Task(1, "Test Task " + i, "This is task " + i, 1, 1, "Admin", 1);
+                db.addTask(testTasks);
+        }
+        ArrayList<User> users = db.getAllUsers();
+        for (int i = 0; i < users.size(); i++) {
+            System.out.print("This is user " + i);
+        }
+    }
+
+    @After
+    public void finish() {
+        ArrayList<User> users = db.getAllUsers();
+        ArrayList<Project> projects = db.getAllProjects();
+        ArrayList<Task> tasks = db.getAllTasks();
+
+        for (int i = 0; i < users.size(); i++) {
+            db.removeUser(String.valueOf(users.get(i).getId()));
+        }
+
+        for (int i = 0; i < projects.size(); i++) {
+            db.removeProject(String.valueOf(projects.get(i).getId()));
+        }
+
+        for (int i = 0; i < tasks.size(); i++) {
+            db.removeTask(String.valueOf(tasks.get(i)));
+        }
+        db.close();
+    }
+
+
+    @Test
+    public void db_is_working() {
+        ArrayList<User> users = db.getAllUsers();
+        ArrayList<Project> projects = db.getAllProjects();
+
+        assertEquals(users.size(), 4);
+        assertEquals(projects.size(), 4);
+    }
+
+    @Test
+    public void create_is_working() {
+        String user = "TestUser";
+        String pass = "123";
+
+        User test = new User(0, user, pass, 0, 0);
+        db.addUser(test);
+
+        assertEquals(db.getUser("5").getUsername(), user);
+        db.removeUser("");
+    }
+
+    @Test
+    public void delete_is_working() {
+        db.removeUser("4");
+        assertEquals(db.getUser("4"), null);
+    }
+
 }

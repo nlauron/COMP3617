@@ -38,7 +38,7 @@ public class ExampleInstrumentedTest {
     public void setUp() {
         db = DBHelper.getInstance(InstrumentationRegistry.getTargetContext());
         for (int i = 1; i < 8; i++) {
-            Photo p = new Photo(i, "A Photo", "1-" + i + "-2020");
+            Photo p = new Photo(i, "A Photo", "1-" + i + "-2020", "over here", "caption tags");
             db.addPhoto(p);
         }
     }

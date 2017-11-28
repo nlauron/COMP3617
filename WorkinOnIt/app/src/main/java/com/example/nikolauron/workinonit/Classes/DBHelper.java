@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
+    private static DBHelper db = null;
+
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "WIPDB.db";
 
@@ -85,6 +87,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS user");
         onCreate(db);
+    }
+
+    public static DBHelper getInstance(Context context) {
+        if (db == null) {
+            db = new DBHelper(context.getApplicationContext());
+        }
+        return db;
     }
 
     public void addUser(User u) {

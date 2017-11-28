@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         db = new DBHelper(this);
 
         for (int i = 1; i < 8; i++) {
-            Photo p = new Photo(image_ids[i], image_titles[i], "1-" + i + "-2020");
+            Photo p = new Photo(image_ids[i], image_titles[i], "1-" + i + "-2020","over there", "caption");
             db.addPhoto(p);
         }
 

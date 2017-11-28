@@ -23,6 +23,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String PHOTO_COLUMN_ID = "id";
     public static final String PHOTO_COLUMN_TITLE = "title";
     public static final String PHOTO_COLUMN_DATE = "date";
+    public static final String PHOTO_COLUMN_LOCATION = "location";
+    public static final String PHOTO_COLUMN_CAPTION = "caption";
 
     public DBHelper (Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,6 +62,8 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(PHOTO_COLUMN_TITLE, p.getTitle());
         values.put(PHOTO_COLUMN_DATE, p.getDate());
+        values.put(PHOTO_COLUMN_LOCATION, p.getLocation());
+        values.put(PHOTO_COLUMN_CAPTION, p.getCaption());
         db.insert(PHOTO_TABLE_NAME, null, values);
     }
 
@@ -74,7 +78,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 Photo temp = new Photo (
                         cursor.getInt(0),
                         cursor.getString(1),
-                        cursor.getString(2)
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4)
                 );
                 photos.add(temp);
             } while (cursor.moveToNext());
@@ -87,7 +93,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.query(PHOTO_TABLE_NAME,
-                new String[] {PHOTO_COLUMN_ID, PHOTO_COLUMN_TITLE, PHOTO_COLUMN_DATE},
+                new String[] {PHOTO_COLUMN_ID, PHOTO_COLUMN_TITLE, PHOTO_COLUMN_DATE, PHOTO_COLUMN_LOCATION, PHOTO_COLUMN_CAPTION},
                 PHOTO_COLUMN_ID + " = ?",
                 new String[] {id},
                 null,
@@ -102,7 +108,9 @@ public class DBHelper extends SQLiteOpenHelper {
         return new Photo(
                 cursor.getInt(0),
                 cursor.getString(1),
-                cursor.getString(2)
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4)
         );
     }
 
@@ -112,6 +120,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         values.put(PHOTO_COLUMN_TITLE, newPhoto.getTitle());
         values.put(PHOTO_COLUMN_DATE, newPhoto.getDate());
+        values.put(PHOTO_COLUMN_LOCATION, newPhoto.getLocation());
+        values.put(PHOTO_COLUMN_CAPTION, newPhoto.getCaption());
 
         this.getWritableDatabase().update(
                 PHOTO_TABLE_NAME,
