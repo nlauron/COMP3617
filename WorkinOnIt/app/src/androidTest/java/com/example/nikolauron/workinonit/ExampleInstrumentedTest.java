@@ -39,15 +39,21 @@ public class ExampleInstrumentedTest {
     public void setUp() {
         db = DBHelper.getInstance(InstrumentationRegistry.getTargetContext());
         for (int i = 0; i < 4; i++) {
-                User testUsers = new User(i, "User" + i, "abc", 0, 0);
-                db.addUser(testUsers);
-
-                Project testProjects = new Project(1, "Test Project " + i, "Test Project" + i, 0);
-                db.addProject(testProjects);
-
-                Task testTasks = new Task(1, "Test Task " + i, "This is task " + i, 1, 1, "Admin", 1);
-                db.addTask(testTasks);
+            User testUsers = new User(i, "User" + i, "abc", 0, 0);
+            db.addUser(testUsers);
         }
+
+        for (int i = 0; i < 4; i++) {
+            Project testProjects = new Project(1, "Test Project " + i, "Test Project" + i, 0);
+            db.addProject(testProjects);
+        }
+
+        for (int i = 0; i < 4; i++) {
+            Task testTasks = new Task(1, "Test Task " + i, "This is task " + i, 1, 1, "Admin", 1);
+            db.addTask(testTasks);
+        }
+
+
         ArrayList<User> users = db.getAllUsers();
         for (int i = 0; i < users.size(); i++) {
             System.out.print("This is user " + i);
@@ -69,7 +75,7 @@ public class ExampleInstrumentedTest {
         }
 
         for (int i = 0; i < tasks.size(); i++) {
-            db.removeTask(String.valueOf(tasks.get(i)));
+            db.removeTask(String.valueOf(tasks.get(i).getId()));
         }
         db.close();
     }
@@ -85,21 +91,26 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
+    public void get_is_working() {
+        ArrayList<User> users = db.getAllUsers();
+        String user = users.get(1).getUsername();
+        assertEquals(user, "User1");
+    }
+
+    @Test
     public void create_is_working() {
         String user = "TestUser";
         String pass = "123";
 
-        User test = new User(0, user, pass, 0, 0);
+        ArrayList<User> users = db.getAllUsers();
+        assertEquals(users.size(), 4);
+
+        User test = new User(5, user, pass, 0, 0);
         db.addUser(test);
-
-        assertEquals(db.getUser("5").getUsername(), user);
-        db.removeUser("");
+        db.addUser(test);
+        db.addUser(test);
+        users = db.getAllUsers();
+        assertEquals(users.size(), 7);
+        assertEquals(users.get(6).getUsername(), user);
     }
-
-    @Test
-    public void delete_is_working() {
-        db.removeUser("4");
-        assertEquals(db.getUser("4"), null);
-    }
-
 }
